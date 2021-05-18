@@ -1,7 +1,8 @@
 const express = require(`express`);
 const router = express.Router();
 const auth = require("../../middleware/auth");
-const { check, validationResult } = require("express-validator");
+const { validationResult } = require("express-validator");
+const { check } = require("express-validator/check");
 
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
@@ -170,14 +171,14 @@ router.delete("/", auth, async (req, res) => {
 
 router.put(
   "/experience",
-  [
-    auth,
 
+  auth,
+  [
     check("title", "Title is required").not().isEmpty(),
     check("company", "Company is required").not().isEmpty(),
     check("from", "From date is required").not().isEmpty(),
-    ,
   ],
+
   async (req, res) => {
     const errors = validationResult(req.body);
     if (!errors.isEmpty()) {
@@ -245,11 +246,12 @@ router.put(
   "/education",
 
   auth,
-
-  check("school", "School is required").not().isEmpty(),
-  check("degree", "Degree is required").not().isEmpty(),
-  check("from", "From date is required").not().isEmpty(),
-  check("fieldofstudy", "Field of study is required").not().isEmpty(),
+  [
+    check("school", "School is required").not().isEmpty(),
+    check("degree", "Degree is required").not().isEmpty(),
+    check("from", "From date is required").not().isEmpty(),
+    check("fieldofstudy", "Field of study is required").not().isEmpty(),
+  ],
   async (req, res) => {
     const errors = validationResult(req.body);
     if (!errors.isEmpty()) {
