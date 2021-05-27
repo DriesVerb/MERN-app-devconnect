@@ -5,6 +5,7 @@ import {
   CLEAR_PROFILE,
   UPDATE_PROFILE,
   GET_REPOS,
+  NO_REPOS,
 } from "../actions/types";
 
 const initialState = {
@@ -50,6 +51,11 @@ function profile(state = initialState, action) {
         ...state,
         repos: payload,
         loading: false,
+      };
+    case NO_REPOS:
+      return {
+        ...state,
+        repos: [],
       };
     default:
       return state;
